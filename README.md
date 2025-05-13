@@ -8,6 +8,9 @@ This action checks the following conditions:
 - The push is to the **default branch**.
 - The repository has **only one commit** (`HEAD` is the root commit).
 If all conditions are met, it sets the output `first_commit` to `"true"`.
+
+**Important**: The `actions/checkout` step must use `fetch-depth: 0` to fetch the full commit history. Without this, the action cannot accurately detect the first commit.
+
 ---
 ## :white_check_mark: Outputs
 ```
@@ -30,6 +33,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required to fetch full commit history for accurate first-commit detection
       - name: Check if this is the first commit
         id: first
         uses: rynodivino/check-first-commit@v1
@@ -47,6 +52,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required to fetch full commit history for accurate first-commit detection
       - uses: rynodivino/check-first-commit@v1
         id: first
       - name: Run CI checks
@@ -75,6 +82,15 @@ Internally, it:
 - Confirms the current branch is the default
 - Counts commits to determine if it's the first
 ---
+
+## :rocket: Example
+See a working example of this action in a template repository:  
+[rynodivino/check-first-demo](https://github.com/rynodivino/check-first-demo)
+
+This demo showcases how to set up the action with `fetch-depth: 0` and use the `first_commit` output in a workflow.
+
+---
+
 ## :page_facing_up: License
 [MIT](LICENSE)
 ---
