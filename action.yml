@@ -31,6 +31,8 @@ runs:
         # Ensure we're in the default branch
         DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
         CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+        echo "default_branch=$DEFAULT_BRANCH"
+        echo "current_branch=$CURRENT_BRANCH"
         if [ "$CURRENT_BRANCH" != "$DEFAULT_BRANCH" ]; then
           echo "Not on default branch — skipping."
           echo "first_commit=false" >> "$GITHUB_OUTPUT"
@@ -38,6 +40,7 @@ runs:
         fi
         # Check for exactly one commit in the repo
         COMMIT_COUNT=$(git rev-list --count HEAD)
+        echo "commit_count=$COMMIT_COUNT"
         if [ "$COMMIT_COUNT" -eq 1 ]; then
           echo "This is the first/root commit."
           echo "first_commit=true" >> "$GITHUB_OUTPUT"
