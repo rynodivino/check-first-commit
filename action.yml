@@ -1,5 +1,8 @@
 name: Check First Commit
 description: An action to ensure a workflow runs only if this is the first commit on the default branch and not a fork or PR
+branding:
+  icon: 'check-square'
+  color: 'blue'
 outputs:
   first_commit:
     description: "Whether this is the first commit"
